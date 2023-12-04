@@ -1,0 +1,10 @@
+setup....
+  step 1: Create a virtual environment using python command
+  step 2: copy the Schemachange insite the folder path 
+               .venv>lib>site-packages>schemachage   <- paste the cli.py file here
+  step 3: Don't have schemachange file, please download it.
+
+    
+    Follow the link 
+https://github.com/Snowflake-Labs/schemachange
+https://www.phdata.io/blog/how-to-setup-schemachange-for-snowflake-ci-cd/
