@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-    - dev
+    - uat
   paths:
     include:
     - /create_scripts
@@ -12,15 +12,15 @@ pool:
   name: FDE_GL
 
 variables:
-- group: dev
+- group: uat
 steps:
 - task: CmdLine@2
   inputs:
     targetType: 'inline'
     script: |
       call $(Dependencies)
-      call SET HTTP_PROXY=http://web.prod.proxy.cargill.com:4200
-      call SET HTTPS_PROXY=http://web.prod.proxy.cargill.com:4200
+      call SET HTTP_PROXY=http://web.prod.proxy.{organization_name}.com:4200
+      call SET HTTPS_PROXY=http://web.prod.proxy.{organization_name}.com:4200
       echo 'Starting cmd task'
       Set REQUESTS_CA_BUNDLE=C:\ProgramData\pip\ca_bundle.pem
       echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
