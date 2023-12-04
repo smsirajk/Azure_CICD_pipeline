@@ -1,0 +1,36 @@
+config-version: 1
+root-folder: '/minerva_general_ledger'
+modules-folder: null
+snowflake-account: 'cargill-dev'
+snowflake-authenticator: 'oauth'
+snowflake-user: '023c334b-0e37-412b-9c6e-bc18d4a98c19'
+snowflake-role: 'minerva_finance_data_engineer'
+snowflake-warehouse: 'TRANSFORM_STANDARD_M'
+change-history-table: null
+  
+create-change-history-table: false
+vars:
+  env_name: {{env_var('SF_ENV') }}
+  raw: 'general_ledger_raw'
+  trns: 'general_ledger_trns'
+  cons: 'general_ledger'
+
+autocommit: false
+
+verbose: false
+
+dry-run: false
+
+query-tag: 'QUERY_TAG'
+
+oauth_config:
+  token-provider-url: {{ env_var('URL') }}
+  token-response-name: 'access_token'
+  token-request-headers:
+    Content-Type: "application/x-www-form-urlencoded"
+    User-Agent: "python/schemachange"
+  token-request-payload:
+    client_id: {{ env_var('CLIENT_ID') }}
+    client_secret: {{ env_var('CLIENT_SECRET') }}
+    grant_type: 'client_credentials'
+    scope: {{ env_var('SCOPE') }}
