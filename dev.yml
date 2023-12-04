@@ -19,12 +19,12 @@ steps:
     targetType: 'inline'
     script: |
       call $(Dependencies)
-      call SET HTTP_PROXY=http://web.prod.proxy.cargill.com:4200
-      call SET HTTPS_PROXY=http://web.prod.proxy.cargill.com:4200
+      call SET HTTP_PROXY=http://web.prod.proxy.{organization_name}.com:4200
+      call SET HTTPS_PROXY=http://web.prod.proxy.{organization_name}.com:4200
       echo 'Starting cmd task'
       Set REQUESTS_CA_BUNDLE=C:\ProgramData\pip\ca_bundle.pem
       echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
-      schemachange --config-folder $(PROJECT_FOLDER)/minerva_general_ledger -f $(PROJECT_FOLDER)/minerva_general_ledger -a $(SNOWFLAKE_ACCOUNT) -u $(USER_NAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+      schemachange --config-folder $(PROJECT_FOLDER)/$(project_sub_folder) -f $(PROJECT_FOLDER)/$(project_sub_folder) -a $(SNOWFLAKE_ACCOUNT) -u $(USER_NAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
   env:
     SNOWFLAKE_PASSWORD: $(SF_PASSWORD)
     URL: $(URL)
