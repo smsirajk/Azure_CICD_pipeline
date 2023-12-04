@@ -1,0 +1,33 @@
+trigger:
+  branches:
+    include:
+    - dev
+  paths:
+    include:
+    - /create_scripts
+    - /general_Ledger_raw
+    - /general_ledger_trns
+    - /general_ledger
+pool:
+  name: FDE_GL
+
+variables:
+- group: dev
+steps:
+- task: CmdLine@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      call $(Dependencies)
+      call SET HTTP_PROXY=http://web.prod.proxy.cargill.com:4200
+      call SET HTTPS_PROXY=http://web.prod.proxy.cargill.com:4200
+      echo 'Starting cmd task'
+      Set REQUESTS_CA_BUNDLE=C:\ProgramData\pip\ca_bundle.pem
+      echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+      schemachange --config-folder $(PROJECT_FOLDER)/minerva_general_ledger -f $(PROJECT_FOLDER)/minerva_general_ledger -a $(SNOWFLAKE_ACCOUNT) -u $(USER_NAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+  env:
+    SNOWFLAKE_PASSWORD: $(SF_PASSWORD)
+    URL: $(URL)
+    CLIENT_ID: $(CLIENT_ID)
+    CLIENT_SECRET: $(CLIENT_SECRET)
+    SCOPE: $(SESSION_SCOPE)
